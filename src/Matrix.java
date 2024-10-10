@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /* ********** ADT MATRIX ********** */
 /* ********** TEAM RakJav ********** */
 public class Matrix {
@@ -22,8 +24,6 @@ public class Matrix {
         /* Return nilai elemen ketika User memasukkan baris dan kolom Matrix */
         return ELMT[baris][kolom];
     }
-
-    /* *** Selektor LENGTH *** */
 
     /* *** Selektor LENGTH *** */
     public int getRow(Matrix M){
@@ -71,6 +71,52 @@ public class Matrix {
         }
         else{
             System.out.println("Index out of bound");
+        }
+    }
+
+    /* ********** READ & PRINT ********** */
+
+    public void readMatrix(Matrix M){
+        /* Melakukan scanning kepada setiap elemen */
+        System.out.println("Input Matrix:");
+
+        Scanner scanner = new Scanner(System.in);
+
+        int rows = scanner.nextInt();
+        while (rows < 0){
+            // Mengulang Prompt hingga mendapatkan input yang valid
+            System.out.println("Invalid input. Please enter a non-negative integer.");
+            rows = scanner.nextInt();
+        }
+
+        int cols = scanner.nextInt();
+        while (cols < 0){
+            // Mengulang Prompt hingga mendapatkan input yang valid
+            System.out.println("Invalid input. Please enter a non-negative integer.");
+            cols = scanner.nextInt();
+        }
+
+        CreateMatrix(M, rows, cols);
+
+
+        for (int i = 0; i < getRow(M); i++){
+            String inputRows = scanner.nextLine();
+            String[] elements = inputRows.split(" "); 
+            for (int j = 0; j < getCol(M); j++){
+                setElement(M, i, j, Double.parseDouble(elements[j]));
+            }
+        }
+
+        scanner.close();
+    }
+
+    public void printMatrix(Matrix M){
+        /* Mengeluarkan matrix dalam bentuk rows x cols */
+        for (int i = 0; i<getRow(M); i++){
+            for (int j = 0; j<getCol(M); j++){
+                System.out.println(M.getElement(i, j) + " ");
+            }
+            System.out.println("\n");
         }
     }
 
