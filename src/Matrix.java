@@ -78,10 +78,11 @@ public class Matrix {
 
     public void readMatrix(Matrix M){
         /* Melakukan scanning kepada setiap elemen */
-        System.out.println("Input Matrix:");
+        System.out.println("Input Matrix:\n");
 
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("Input Rows:");
         int rows = scanner.nextInt();
         while (rows < 0){
             // Mengulang Prompt hingga mendapatkan input yang valid
@@ -89,6 +90,7 @@ public class Matrix {
             rows = scanner.nextInt();
         }
 
+        System.out.println("Input Coloumns:");
         int cols = scanner.nextInt();
         while (cols < 0){
             // Mengulang Prompt hingga mendapatkan input yang valid
@@ -98,7 +100,9 @@ public class Matrix {
 
         CreateMatrix(M, rows, cols);
 
+        scanner.nextLine();
 
+        System.out.println("Input Elements:");
         for (int i = 0; i < getRow(M); i++){
             String inputRows = scanner.nextLine();
             String[] elements = inputRows.split(" "); 
@@ -106,7 +110,6 @@ public class Matrix {
                 setElement(M, i, j, Double.parseDouble(elements[j]));
             }
         }
-
         scanner.close();
     }
 
@@ -114,9 +117,9 @@ public class Matrix {
         /* Mengeluarkan matrix dalam bentuk rows x cols */
         for (int i = 0; i<getRow(M); i++){
             for (int j = 0; j<getCol(M); j++){
-                System.out.println(M.getElement(i, j) + " ");
+                System.out.print(M.getElement(i, j) + " ");
             }
-            System.out.println("\n");
+            System.out.print("\n");
         }
     }
 
