@@ -1,5 +1,5 @@
 public class Determinan {
-    void determinan(Matrix M){
+    public double determinan(Matrix M){
         Matrix temp = new Matrix();
         temp = M;
 
@@ -11,5 +11,6 @@ public class Determinan {
         for (i = 0; i <= M.getLastRowIdx(M); i++){
             i *= M.getElement(i, i);
         }
+        return result;
     }
 }
