@@ -1,7 +1,9 @@
 public class Kofaktor extends Matrix {
   // Mencari Matriks Kofaktor
-  public void keluaran(Matrix mIn, Matrix mOut) {
+  public Matrix keluaran(Matrix mIn) {
     int i, j;
+    Matrix mOut = new Matrix();
+    CreateMatrix(mOut, getRow(mIn), getCol(mIn));
 
     for (i = 0; i < getRow(mIn); i++) {
       for (j = 0; j < getRow(mIn); j++) {
@@ -15,6 +17,8 @@ public class Kofaktor extends Matrix {
         setElement(mOut, i, j, det);
       }
     }
+
+    return mOut;
   }
 
   // Menghitung Kofaktor
