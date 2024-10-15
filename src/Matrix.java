@@ -123,6 +123,15 @@ public class Matrix {
         }
     }
 
+    public void copyMatrix(Matrix mIn, Matrix mOut){
+        mOut.CreateMatrix(mOut, mIn.rows, mIn.cols);
+        for(int i = 0; i<=getLastRowIdx(mIn); i++){
+            for(int j = 0; j<=getLastColIdx(mIn); j++){
+                setElement(mOut, i, j, mIn.getElement(i, j));
+            }
+        }
+    }
+
     /* ********** OPERATIONS ********** */
     public void transposeMatrix(Matrix M){
         /* Men-Transpose Matrix */
