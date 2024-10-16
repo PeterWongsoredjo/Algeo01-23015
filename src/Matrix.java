@@ -127,7 +127,7 @@ public class Matrix {
         mOut.CreateMatrix(mOut, mIn.rows, mIn.cols);
         for(int i = 0; i<=getLastRowIdx(mIn); i++){
             for(int j = 0; j<=getLastColIdx(mIn); j++){
-                setElement(mOut, i, j, mIn.getElement(i, j));
+                mOut.setElement(mOut, i, j, mIn.getElement(i, j));
             }
         }
     }
