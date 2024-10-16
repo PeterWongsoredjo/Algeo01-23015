@@ -51,12 +51,14 @@ public class Kofaktor extends Matrix {
     // Input Matriks ke Matriks sementara
     int r = 0, c = 0;
     for (int i = 0; i < getRow(M); i++) {
-      if (i == row)
+      if (i == row) {
         continue;
+      }
       c = 0;
       for (int j = 0; j < getCol(M); j++) {
-        if (j == col)
+        if (j == col) {
           continue;
+        }
         setElement(kofak1, r, c, M.getElement(i, j));
         c++;
       }
