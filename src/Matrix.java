@@ -77,23 +77,17 @@ public class Matrix {
 
     public void readMatrix(Matrix M) {
         /* Melakukan scanning kepada setiap elemen */
-        System.out.println("Input Matrix:\n");
-
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Input Rows:");
         int rows = scanner.nextInt();
         while (rows < 0) {
             // Mengulang Prompt hingga mendapatkan input yang valid
-            System.out.println("Invalid input. Please enter a non-negative integer.");
             rows = scanner.nextInt();
         }
 
-        System.out.println("Input Coloumns:");
         int cols = scanner.nextInt();
         while (cols < 0) {
             // Mengulang Prompt hingga mendapatkan input yang valid
-            System.out.println("Invalid input. Please enter a non-negative integer.");
             cols = scanner.nextInt();
         }
 
@@ -101,7 +95,6 @@ public class Matrix {
 
         scanner.nextLine();
 
-        System.out.println("Input Elements:");
         for (int i = 0; i < getRow(M); i++) {
             String inputRows = scanner.nextLine();
             String[] elements = inputRows.split(" ");
@@ -144,12 +137,8 @@ public class Matrix {
         return temp;
     }
 
-    public void multiplyMatrix(Matrix M1, Matrix M2) {
+    public Matrix multiplyMatrix(Matrix M1, Matrix M2) {
         /* Mengalikan 2 Matrix */
-        if (getCol(M1) != getRow(M2)) {
-            System.out.println("Matrix tidak dapat dikalikan");
-            return;
-        }
         Matrix temp = new Matrix();
         CreateMatrix(temp, getRow(M1), getCol(M2));
         for (int i = 0; i < getRow(M1); i++) {
@@ -161,15 +150,11 @@ public class Matrix {
                 setElement(temp, i, j, sum);
             }
         }
-        M1 = temp;
+        return temp;
     }
 
-    public void addMatrix(Matrix M1, Matrix M2) {
+    public Matrix addMatrix(Matrix M1, Matrix M2) {
         /* Menjumlahkan Dua Buah Matriks */
-        if (getRow(M1) != getRow(M2) || getCol(M1) != getCol(M2)) {
-            System.out.println("Matrix tidak dapat dijumlahkan");
-            return;
-        }
         Matrix temp = new Matrix();
         CreateMatrix(temp, getRow(M1), getCol(M1));
         for (int i = 0; i < getRow(M1); i++) {
@@ -177,15 +162,11 @@ public class Matrix {
                 setElement(temp, i, j, M1.getElement(i, j) + M2.getElement(i, j));
             }
         }
-        M1 = temp;
+        return temp;
     }
 
-    public void subMatrix(Matrix M1, Matrix M2) {
+    public Matrix subMatrix(Matrix M1, Matrix M2) {
         /* Mengurangkan Dua Buah Matriks */
-        if (getRow(M1) != getRow(M2) || getCol(M1) != getCol(M2)) {
-            System.out.println("Matrix tidak dapat dijumlahkan");
-            return;
-        }
         Matrix temp = new Matrix();
         CreateMatrix(temp, getRow(M1), getCol(M1));
         for (int i = 0; i < getRow(M1); i++) {
@@ -193,6 +174,6 @@ public class Matrix {
                 setElement(temp, i, j, M1.getElement(i, j) - M2.getElement(i, j));
             }
         }
-        M1 = temp;
+        return temp;
     }
 }
