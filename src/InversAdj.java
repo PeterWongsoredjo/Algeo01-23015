@@ -1,5 +1,6 @@
 public class InversAdj extends Matrix {
   public Matrix balikan(Matrix M) {
+    /* WARNING: BELUM PUNYA VALIDATOR */
     DeterminanKofaktor det = new DeterminanKofaktor();
     Kofaktor kof = new Kofaktor();
 
