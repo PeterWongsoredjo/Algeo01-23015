@@ -66,7 +66,7 @@ public class Matrix {
     /* ********** SETTER ********** */
     public void setElement(Matrix M, int baris, int kolom, double value) {
         /* Set nilai elemen Matrix */
-        if (isRowValid(M, baris) && (isColValid(M, baris))) {
+        if (isRowValid(M, baris) && (isColValid(M, kolom))) {
             M.ELMT[baris][kolom] = value;
         } else {
             System.out.println("Index out of bound");
@@ -161,7 +161,7 @@ public class Matrix {
                 setElement(temp, i, j, sum);
             }
         }
-        M1 = temp;
+        copyMatrix(temp, M1);
     }
 
     public void addMatrix(Matrix M1, Matrix M2) {
