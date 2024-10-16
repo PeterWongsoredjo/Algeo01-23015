@@ -5,8 +5,14 @@ public class Gauss{
 
         GaussJordan GJ = new GaussJordan();
 
+        int x = M.getLastColIdx(temp);
+
+        if(M.getLastColIdx(temp) > M.getLastRowIdx(temp)){
+            x = M.getLastRowIdx(temp);
+        }
         int i;
-        for (i = 0; i < M.getLastColIdx(temp); i++){
+
+        for (i = 0; i < x+1; i++){
             // Memastikan diagonal bukan 0
             if(M.getElement(i, i) == 0){
                 for(int j = i; j<= M.getLastRowIdx(temp); j++){
