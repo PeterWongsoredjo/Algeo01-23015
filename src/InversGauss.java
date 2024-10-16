@@ -1,7 +1,7 @@
 public class InversGauss {
     public void inversgauss(Matrix M) {
         DeterminanBaris D = new DeterminanBaris(); 
-        if (D.determinanbaris(M) != 0){
+        if (D.determinan(M) != 0){
             Matrix temp = new Matrix();
             GaussJordan GJ = new GaussJordan();
 
