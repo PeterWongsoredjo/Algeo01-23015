@@ -132,7 +132,7 @@ public class Matrix {
     }
 
     /* ********** OPERATIONS ********** */
-    public void transposeMatrix(Matrix M) {
+    public Matrix transposeMatrix(Matrix M) {
         /* Men-Transpose Matrix */
         Matrix temp = new Matrix();
         CreateMatrix(temp, getCol(M), getRow(M));
@@ -141,7 +141,7 @@ public class Matrix {
                 setElement(temp, i, j, M.getElement(j, i));
             }
         }
-        M = temp;
+        return temp;
     }
 
     public void multiplyMatrix(Matrix M1, Matrix M2) {
