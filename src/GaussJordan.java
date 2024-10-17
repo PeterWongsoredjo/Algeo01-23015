@@ -32,7 +32,13 @@ public class GaussJordan {
         Matrix temp = new Matrix();
         temp = M;
 
-        for (int i = 0; i < M.getLastColIdx(temp); i++){
+        int x = M.getLastColIdx(temp);
+
+        if(M.getLastColIdx(temp) > M.getLastRowIdx(temp)){
+            x = M.getLastRowIdx(temp);
+        }
+
+        for (int i = 0; i < x+1; i++){
             // Memastikan diagonal bukan 0
             if(M.getElement(i, i) == 0){
                 for(int j = i; j<= M.getLastRowIdx(temp); j++){

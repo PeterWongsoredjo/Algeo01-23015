@@ -1,5 +1,6 @@
 public class InversAdj extends Matrix {
   public Matrix balikan(Matrix M) {
+    /* WARNING: BELUM PUNYA VALIDATOR */
     double MARK = -999;
 
     DeterminanKofaktor det = new DeterminanKofaktor();
