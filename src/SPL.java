@@ -51,15 +51,15 @@ public class SPL {
         }
 
         for(int i = 0; i < M1.getRow(M1); i++){
-            temp.setElement(temp, i, temp.getLastColIdx(temp), M2.getElement(0, i));
+            temp.setElement(temp, i, temp.getLastColIdx(temp), M2.getElement(i, 0));
         }
 
         hasil.CreateMatrix(hasil, M1.getRow(M1), 1);
 
         GJ.gaussjordan(temp);
 
-        for(int i = 0; i<temp.getRow(temp); i++){
-            hasil.setElement(hasil, i, 0, temp.getElement(i, temp.getLastColIdx(temp)));
+        for(int i = 0; i<=temp.getLastRowIdx(temp); i++){
+            hasil.setElement(hasil, i, hasil.getLastColIdx(hasil), temp.getElement(i, temp.getLastColIdx(temp)));
         }
 
         return hasil;

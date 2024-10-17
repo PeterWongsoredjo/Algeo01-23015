@@ -96,7 +96,6 @@ public class Matrix {
         scanner.nextLine();
 
         for (int i = 0; i < getRow(M); i++){
-            System.out.println(M.getCol(M));
 
             if (M.getCol(M) == 1) {
                 double element = scanner.nextDouble();
@@ -144,8 +143,8 @@ public class Matrix {
         Matrix temp = new Matrix();
         CreateMatrix(temp, getCol(M), getRow(M));
         for (int i = 0; i < getRow(M); i++) {
-            for (int j = 0; i < getCol(M); j++) {
-                setElement(temp, i, j, M.getElement(j, i));
+            for (int j = 0; j < getCol(M); j++) {
+                setElement(temp, j, i, M.getElement(i,j));
             }
         }
         return temp;
