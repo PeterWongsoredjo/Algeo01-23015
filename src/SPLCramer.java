@@ -1,22 +1,22 @@
 public class SPLCramer extends Matrix {
-  public Matrix cramer(Matrix M) {
+  public Matrix cramer(Matrix M1, Matrix M2) {
     double MARK = -999;
 
-    // Buat Matriks 1
-    Matrix M1 = new Matrix();
-    CreateMatrix(M1, getRow(M), getCol(M) - 1);
-    for (int i = 0; i < getRow(M); i++) {
-      for (int j = 0; j < getCol(M) - 1; j++) {
-        setElement(M1, i, j, M.getElement(i, j));
-      }
-    }
+    // // Buat Matriks 1
+    // Matrix M1 = new Matrix();
+    // CreateMatrix(M1, getRow(M), getCol(M) - 1);
+    // for (int i = 0; i < getRow(M); i++) {
+    // for (int j = 0; j < getCol(M) - 1; j++) {
+    // setElement(M1, i, j, M.getElement(i, j));
+    // }
+    // }
 
-    // Buat Matriks 2
-    Matrix M2 = new Matrix();
-    CreateMatrix(M2, getRow(M), 1);
-    for (int i = 0; i < getRow(M); i++) {
-      setElement(M2, i, 0, M.getElement(i, getCol(M) - 1));
-    }
+    // // Buat Matriks 2
+    // Matrix M2 = new Matrix();
+    // CreateMatrix(M2, getRow(M), 1);
+    // for (int i = 0; i < getRow(M); i++) {
+    // setElement(M2, i, 0, M.getElement(i, getCol(M) - 1));
+    // }
 
     // Menghitung determinan awal
     DeterminanKofaktor det = new DeterminanKofaktor();
@@ -24,11 +24,10 @@ public class SPLCramer extends Matrix {
 
     Matrix temp = new Matrix();
     CreateMatrix(temp, getRow(M1), getCol(M1));
-    copyMatrix(M1, temp);
 
     // Hitung Hasil
     Matrix mHasil = new Matrix();
-    CreateMatrix(mHasil, getRow(M), 1);
+    CreateMatrix(mHasil, getRow(M1), 1);
     if (detM == 0) {
       for (int i = 0; i < getRow(M1); i++) {
         setElement(mHasil, i, 0, MARK);

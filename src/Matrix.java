@@ -102,7 +102,6 @@ public class Matrix {
                 setElement(M, i, j, Double.parseDouble(elements[j]));
             }
         }
-        scanner.close();
     }
 
     public void printMatrix(Matrix M) {
