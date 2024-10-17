@@ -66,7 +66,7 @@ public class Matrix {
     /* ********** SETTER ********** */
     public void setElement(Matrix M, int baris, int kolom, double value) {
         /* Set nilai elemen Matrix */
-        if (isRowValid(M, baris) && (isColValid(M, baris))) {
+        if (isRowValid(M, baris) && (isColValid(M, kolom))) {
             M.ELMT[baris][kolom] = value;
         } else {
             System.out.println("Index out of bound");
@@ -76,17 +76,17 @@ public class Matrix {
     /* ********** READ & PRINT ********** */
 
     public void readMatrix(Matrix M) {
-        /* Melakukan scanning kepada setiap elemen */
+
         Scanner scanner = new Scanner(System.in);
 
         int rows = scanner.nextInt();
-        while (rows < 0) {
+        while (rows < 0){
             // Mengulang Prompt hingga mendapatkan input yang valid
             rows = scanner.nextInt();
         }
 
         int cols = scanner.nextInt();
-        while (cols < 0) {
+        while (cols < 0){
             // Mengulang Prompt hingga mendapatkan input yang valid
             cols = scanner.nextInt();
         }
@@ -95,14 +95,28 @@ public class Matrix {
 
         scanner.nextLine();
 
-        for (int i = 0; i < getRow(M); i++) {
-            String inputRows = scanner.nextLine();
-            String[] elements = inputRows.split(" ");
-            for (int j = 0; j < getCol(M); j++) {
-                setElement(M, i, j, Double.parseDouble(elements[j]));
+        for (int i = 0; i < getRow(M); i++){
+            System.out.println(M.getCol(M));
+
+            if (M.getCol(M) == 1) {
+                double element = scanner.nextDouble();
+                M.setElement(M, i, 0, element);
+                scanner.nextLine();
             }
+            else{
+                String inputRows = scanner.nextLine().trim();
+                String[] elements = inputRows.split(" "); 
+                if (elements.length != cols) {
+                    System.out.println("Error: Expected " + cols + " elements, but got " + elements.length);
+                    i--;
+                    continue;
+                }
+                for (int j = 0; j < getCol(M); j++){
+                    M.setElement(M, i, j, Double.parseDouble(elements[j]));
+                }
+            }
+   
         }
-        scanner.close();
     }
 
     public void printMatrix(Matrix M) {
