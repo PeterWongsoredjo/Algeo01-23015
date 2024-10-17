@@ -1,20 +1,29 @@
 public class SPL {
-    public Matrix gauss(Matrix M){
+    public Matrix gauss(Matrix M1, Matrix M2){
         Matrix temp = new Matrix();
         Matrix hasil = new Matrix();
         Gauss gauss = new Gauss();
 
-        temp.copyMatrix(M, temp);
-        hasil.CreateMatrix(hasil, M.getRow(M), 1);
+        temp.CreateMatrix(temp, M1.getRow(M1), M1.getCol(M1) + 1);
+
+        for(int i = 0; i<M1.getRow(M1); i++){
+            for(int j = 0; j<M1.getCol(M1); j++){
+                temp.setElement(temp, i, j, M1.getElement(i, j));
+            }
+        }
+
+        for(int i = 0; i < M1.getRow(M1); i++){
+            temp.setElement(temp, i, temp.getLastColIdx(temp), M2.getElement(i,0));
+        }
+
+        hasil.CreateMatrix(hasil, M1.getRow(M1), 1);
 
         gauss.gauss(temp);
-        
-        GaussJordan GJ = new GaussJordan();
 
-        for (int i = M.getRow(M) - 1; i >= 0; i--) {
+        for (int i = M1.getRow(M1) - 1; i >= 0; i--) {
             for (int k = i - 1; k >= 0; k--) {
                 double factor = temp.getElement(k, i);
-                for (int j = 0; j < M.getCol(M); j++) {
+                for (int j = 0; j < M1.getCol(M1); j++) {
                     temp.setElement(temp, k, j, temp.getElement(k, j) - factor * temp.getElement(i, j));
                 }
             }
@@ -27,14 +36,27 @@ public class SPL {
         return hasil;
     }
 
-    public Matrix gaussjordan(Matrix M){
+    public Matrix gaussjordan(Matrix M1, Matrix M2){
         Matrix temp = new Matrix();
         Matrix hasil = new Matrix();
 
-        temp.copyMatrix(M, temp);
-        hasil.CreateMatrix(hasil, M.getRow(M), 1);
+        GaussJordan GJ = new GaussJordan();
 
-        gaussjordan(temp);
+        temp.CreateMatrix(temp, M1.getRow(M1), M1.getCol(M1) + 1);
+
+        for(int i = 0; i<M1.getRow(M1); i++){
+            for(int j = 0; j<M1.getCol(M1); j++){
+                temp.setElement(temp, i, j, M1.getElement(i, j));
+            }
+        }
+
+        for(int i = 0; i < M1.getRow(M1); i++){
+            temp.setElement(temp, i, temp.getLastColIdx(temp), M2.getElement(0, i));
+        }
+
+        hasil.CreateMatrix(hasil, M1.getRow(M1), 1);
+
+        GJ.gaussjordan(temp);
 
         for(int i = 0; i<temp.getRow(temp); i++){
             hasil.setElement(hasil, i, 0, temp.getElement(i, temp.getLastColIdx(temp)));
