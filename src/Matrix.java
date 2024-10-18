@@ -76,7 +76,7 @@ public class Matrix {
     /* ********** READ & PRINT ********** */
 
     public void readMatrix(Matrix M) {
-        /* Melakukan scanning kepada setiap elemen */
+
         Scanner scanner = new Scanner(System.in);
 
         int rows = scanner.nextInt();
@@ -96,11 +96,24 @@ public class Matrix {
         scanner.nextLine();
 
         for (int i = 0; i < getRow(M); i++) {
-            String inputRows = scanner.nextLine();
-            String[] elements = inputRows.split(" ");
-            for (int j = 0; j < getCol(M); j++) {
-                setElement(M, i, j, Double.parseDouble(elements[j]));
+
+            if (M.getCol(M) == 1) {
+                double element = scanner.nextDouble();
+                M.setElement(M, i, 0, element);
+                scanner.nextLine();
+            } else {
+                String inputRows = scanner.nextLine().trim();
+                String[] elements = inputRows.split(" ");
+                if (elements.length != cols) {
+                    System.out.println("Error: Expected " + cols + " elements, but got " + elements.length);
+                    i--;
+                    continue;
+                }
+                for (int j = 0; j < getCol(M); j++) {
+                    M.setElement(M, i, j, Double.parseDouble(elements[j]));
+                }
             }
+
         }
     }
 
