@@ -9,8 +9,6 @@ public class InversGauss {
         temp.CreateMatrix(temp, M.getRow(M), 2 * M.getCol(M));
         for (i = 0; i < M.getRow(M); i++){
             for (j = 0; j < M.getCol(M); j++){
-                double x = M.getElement(i, j);
-                System.out.println(x);
                 temp.setElement(temp,i,j,M.getElement(i, j));
             }
         }
