@@ -91,12 +91,24 @@ public class BicubicSplineInterpolation {
         // Multiplying Matrix 
         MA.CreateMatrix(MA, 16, 1);
         MA = MXIG.multiplyMatrix(MXIG, temp);
+        MA.printMatrix(MA);
 
-        double result = 0;
+        // Moving Matrix
+        Matrix MAY = new Matrix();
+        MAY.CreateMatrix(MAY, 4, 4);
         int idx = 0;
         for(int i = 0; i<4; i++){
+            for(int j = 0; j<4;j++){
+                MAY.setElement(MAY, j, i, MA.getElement(idx, 0));
+                idx ++;
+            }
+        }
+        MAY.printMatrix(MAY);
+
+        double result = 0;
+        for(int i = 0; i<4; i++){
             for(int j = 0; j<4; j++){
-                result = result + (j * MA.getElement(idx, 0) * Math.pow(x, i) * Math.pow(y, j-1));
+                result = result + ( MAY.getElement(i,j) * Math.pow(x, i) * Math.pow(y, j));
             }
         }
 
