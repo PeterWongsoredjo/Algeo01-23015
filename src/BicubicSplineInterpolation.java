@@ -72,11 +72,12 @@ public class BicubicSplineInterpolation {
         MX.setElement(MX, 15, 14, 6);
         MX.setElement(MX, 15, 15, 9);
 
-
+        //MX.printMatrix(MX);
         // Inversing the Matrix X
         InversGauss IG = new InversGauss();
         Matrix MXIG = new Matrix();
         MXIG = IG.inversgauss(MX);
+        //MXIG.printMatrix(MXIG);
 
         // Making M into a one column Matrix
         temp.CreateMatrix(temp, 16, 1);
@@ -87,11 +88,12 @@ public class BicubicSplineInterpolation {
                 idx_temp ++;
             }
         }
+        //temp.printMatrix(temp);
 
         // Multiplying Matrix 
         MA.CreateMatrix(MA, 16, 1);
         MA = MXIG.multiplyMatrix(MXIG, temp);
-        MA.printMatrix(MA);
+        //MA.printMatrix(MA);
 
         // Moving Matrix
         Matrix MAY = new Matrix();
@@ -103,7 +105,7 @@ public class BicubicSplineInterpolation {
                 idx ++;
             }
         }
-        MAY.printMatrix(MAY);
+        //MAY.printMatrix(MAY);
 
         double result = 0;
         for(int i = 0; i<4; i++){
