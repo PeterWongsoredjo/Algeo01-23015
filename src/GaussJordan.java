@@ -1,4 +1,6 @@
 public class GaussJordan {
+    public static double EPSILON = 1e-10;
+
     public void divideByX(Matrix M, int row, double x){     // Membagi baris dengan x
         for(int i=0; i <= M.getLastColIdx(M); i++){
             double temp = M.getElement(row,i);
@@ -40,16 +42,16 @@ public class GaussJordan {
 
         for (int i = 0; i < x+1; i++){
             // Memastikan diagonal bukan 0
-            if(M.getElement(i, i) == 0){
+            if(Math.abs(M.getElement(i, i)) < EPSILON){
                 for(int j = i; j<= M.getLastRowIdx(temp); j++){
-                    if (M.getElement(j, i) != 0){
+                    if (Math.abs(M.getElement(j, i)) >= EPSILON){
                         switchRows(temp, i, j);
                         break;
                     }
                 }
             }
 
-            if(M.getElement(i, i) != 0){
+            if(Math.abs(M.getElement(i, i)) >= EPSILON){
                 // Membagi baris diagonal dengan diagonal sendiri (mendapatkan 1)
                 divideByX(temp, i, M.getElement(i, i));
 
@@ -61,6 +63,14 @@ public class GaussJordan {
                 // Mengurangkan baris atas dengan multiplier diagonal
                 for (int j = 0; j < i; j++){
                     plusMinRows(temp, j, i, multiplier(temp, i, j));
+                }
+            }
+        }
+
+        for (int row = 0; row <= M.getLastRowIdx(temp); row++) {
+            for (int col = 0; col <= M.getLastColIdx(temp); col++) {
+                if (Math.abs(M.getElement(row, col)) < EPSILON) {
+                    temp.setElement(temp, row, col, 0);  // Set to 0 to avoid -0.0
                 }
             }
         }
