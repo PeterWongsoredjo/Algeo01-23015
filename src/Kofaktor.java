@@ -4,15 +4,19 @@ public class Kofaktor extends Matrix {
     int i, j;
     Matrix mOut = new Matrix();
     CreateMatrix(mOut, getRow(mIn), getCol(mIn));
+    Matrix mTemp = new Matrix();
 
     for (i = 0; i < getRow(mIn); i++) {
-      for (j = 0; j < getRow(mIn); j++) {
+      for (j = 0; j < getCol(mIn); j++) {
         // Buat matriks sementara
-        Matrix mTemp = kofak(mIn, i, j);
+        mTemp = minor(mIn, i, j);
 
         // Cek apakah - atau +
         int pangkat = ((i + j) % 2 == 0) ? 1 : -1;
         double det = pangkat * hitung(mTemp);
+        if (det == -0.0) {
+          det = 0.0;
+        }
 
         setElement(mOut, i, j, det);
       }
@@ -27,23 +31,25 @@ public class Kofaktor extends Matrix {
 
     // Hitung Determinan
     if (getRow(M) == 1) {
-      hitung = getElement(0, 0);
-    } else if (getRow(M) == 2) {
-      hitung = M.getElement(0, 0) * M.getElement(1, 1)
+      return M.getElement(0, 0);
+    }
+
+    if (getRow(M) == 2) {
+      return M.getElement(0, 0) * M.getElement(1, 1)
           - M.getElement(0, 1) * M.getElement(1, 0);
-    } else { // Jika matriks masih lebih dari 2x2
-      for (int i = 0; i < getCol(M); i++) {
-        Matrix mTemp = kofak(M, 0, i);
-        int pangkat = (i % 2 == 0) ? 1 : -1;
-        hitung += pangkat * M.getElement(0, i) * hitung(mTemp);
-      }
+    }
+    // Jika matriks masih lebih dari 2x2
+    for (int i = 0; i < getCol(M); i++) {
+      Matrix mTemp = minor(M, 0, i);
+      int pangkat = (i % 2 == 0) ? 1 : -1;
+      hitung += pangkat * M.getElement(0, i) * hitung(mTemp);
     }
 
     return hitung;
   }
 
   // Membuat matriks kofaktor
-  public Matrix kofak(Matrix M, int row, int col) {
+  public Matrix minor(Matrix M, int row, int col) {
     // Buat matriks dengan ukuran dikurang 1
     Matrix kofak1 = new Matrix();
     CreateMatrix(kofak1, getRow(M) - 1, getCol(M) - 1);
