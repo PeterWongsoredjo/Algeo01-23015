@@ -46,7 +46,6 @@ public class SPLController {
         System.err.println(intRows);
         System.err.println(intCols);
 
-        
         matrixX.CreateMatrix(matrixX, intRows, intCols);
         matrixY.CreateMatrix(matrixY, intRows, 1);
         System.out.println("Matrix Created.");
@@ -71,7 +70,6 @@ public class SPLController {
             mY.setElement(mY, i, mY.getCol(mY) - 1, Double.parseDouble(cols[i]));
         }
     }
-
     
     public void resultOutput(Matrix resultM, TextArea resulTextArea){
         StringBuilder result = new StringBuilder();
