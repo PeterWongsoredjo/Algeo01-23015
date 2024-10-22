@@ -1,5 +1,16 @@
 public class SPL {
-    public Matrix gauss(Matrix M1, Matrix M2){
+    private boolean kosong(Matrix M, int i){ 
+        boolean temp_kosong = true;
+        for(int j=0; j < M.getLastColIdx(M); j++){
+            // Cek Kosong
+            if (M.getElement(i, j) != 0){
+                temp_kosong =false;
+            }
+        }
+        return temp_kosong;
+    }
+
+    public void gauss(Matrix M1, Matrix M2, Boolean kosong, Boolean no_solution, StringBuilder result){
         Matrix temp = new Matrix();
         Matrix hasil = new Matrix();
         Gauss gauss = new Gauss();
@@ -19,10 +30,16 @@ public class SPL {
         hasil.CreateMatrix(hasil, M1.getRow(M1), 1);
 
         gauss.gauss(temp);
+        temp.printMatrix(temp);
 
-        boolean kosong = false;
-        int kosong_idx = 0;
-        boolean no_solution = false;
+        kosong = false;
+        no_solution = false;
+        int count_null = 0;
+
+        GaussJordan GJ = new GaussJordan();
+        GJ.gaussjordan(temp);
+        temp.printMatrix(temp);
+
 
         for(int i = temp.getLastRowIdx(temp); i>=0; i--){    
             boolean temp_kosong = true;
@@ -35,7 +52,7 @@ public class SPL {
             if(temp_kosong){
                 if(temp.getElement(i, temp.getLastColIdx(temp)) == 0){
                     kosong = true;
-                    kosong_idx = i;
+                    count_null ++;
                 }
                 if(temp.getElement(i, temp.getLastColIdx(temp)) != 0){
                     no_solution = true;
@@ -44,23 +61,25 @@ public class SPL {
         }
 
         if(no_solution){
-            System.out.println("Tidak ada solusi yang memenuhi.");
+            result.append("Tidak ada solusi yang memenuhi.");
         }
 
-        if(!no_solution && kosong){
-            for(int i = 0; i<kosong_idx; i++){
-                for(int j = 0; j<temp.getLastColIdx(temp); j++){
-                    if(temp.getElement(i, j) != 0){
-                        if(temp.getElement(i, j) >0){
-                            System.out.print("+ x" + (j+1) + " ");
-                        }
-                        else{
-                            System.out.print("- x" + (j+1) + " ");
+        if(!no_solution && (temp.getCol(temp) + count_null -1) > temp.getRow(temp)){
+            for(int i = 0; i<=temp.getLastRowIdx(temp); i++){
+                if (!kosong(temp, i)){
+                    for(int j = 0; j<temp.getLastColIdx(temp); j++){
+                        if(temp.getElement(i, j) != 0){
+                            if(temp.getElement(i, j) >0){
+                                result.append("+ x" + (j+1) + " ");
+                            }
+                            else{
+                                result.append("- x" + (j+1) + " ");
+                            }
                         }
                     }
-                }
-                System.out.print("= " + temp.getElement(i, temp.getLastColIdx(temp)));
-                System.out.println();
+                    result.append("= " + temp.getElement(i, temp.getLastColIdx(temp)));
+                    result.append("\n");
+                }   
             }
         }
 
@@ -75,8 +94,7 @@ public class SPL {
             }
         }
         */
-        GaussJordan GJ = new GaussJordan();
-        GJ.gaussjordan(temp);
+        
 
         for(int i = 0; i<=temp.getLastRowIdx(temp); i++){
             hasil.setElement(hasil, i, hasil.getLastColIdx(hasil), temp.getElement(i, temp.getLastColIdx(temp)));
@@ -84,11 +102,9 @@ public class SPL {
 
         if(!kosong && !no_solution){
             for(int i = 0; i<=hasil.getLastRowIdx(hasil) ; i++){
-                System.out.println("x" + (i+1) + " = " + hasil.getElement(i, 0));
+                result.append("x" + (i+1) + " = " + hasil.getElement(i, 0));
             }
         }
-
-        return hasil;
     }
 
     public Matrix gaussjordan(Matrix M1, Matrix M2){
@@ -116,7 +132,6 @@ public class SPL {
         for(int i = 0; i<=temp.getLastRowIdx(temp); i++){
             hasil.setElement(hasil, i, hasil.getLastColIdx(hasil), temp.getElement(i, temp.getLastColIdx(temp)));
         }
-
         return hasil;
     }
 }
