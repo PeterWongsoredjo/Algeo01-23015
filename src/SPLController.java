@@ -84,7 +84,9 @@ public class SPLController {
         sizeMatrix();
         fillMatrix(matrixX, matrixY);
         Matrix resultMatrix = new Matrix();
-        resultMatrix = spl.gauss(matrixX, matrixY);
+        boolean kosong, no_solution;
+        resultMatrix = spl.gauss(matrixX, matrixY, kosong, no_solution);
+        
         resultOutput(resultMatrix, outputField);
     }
 

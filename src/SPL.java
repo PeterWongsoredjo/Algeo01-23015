@@ -1,5 +1,5 @@
 public class SPL {
-    public Matrix gauss(Matrix M1, Matrix M2){
+    public Matrix gauss(Matrix M1, Matrix M2, Boolean kosong, Boolean no_solution){
         Matrix temp = new Matrix();
         Matrix hasil = new Matrix();
         Gauss gauss = new Gauss();
@@ -20,9 +20,7 @@ public class SPL {
 
         gauss.gauss(temp);
 
-        boolean kosong = false;
         int kosong_idx = 0;
-        boolean no_solution = false;
 
         for(int i = temp.getLastRowIdx(temp); i>=0; i--){    
             boolean temp_kosong = true;
