@@ -10,7 +10,7 @@ public class SPL {
         return temp_kosong;
     }
 
-    public Matrix gauss(Matrix M1, Matrix M2, Boolean kosong, Boolean no_solution){
+    public void gauss(Matrix M1, Matrix M2, Boolean kosong, Boolean no_solution, StringBuilder result){
         Matrix temp = new Matrix();
         Matrix hasil = new Matrix();
         Gauss gauss = new Gauss();
@@ -32,8 +32,8 @@ public class SPL {
         gauss.gauss(temp);
         temp.printMatrix(temp);
 
-        boolean kosong = false;
-        boolean no_solution = false;
+        kosong = false;
+        no_solution = false;
         int count_null = 0;
 
         GaussJordan GJ = new GaussJordan();
@@ -61,7 +61,7 @@ public class SPL {
         }
 
         if(no_solution){
-            System.out.println("Tidak ada solusi yang memenuhi.");
+            result.append("Tidak ada solusi yang memenuhi.");
         }
 
         if(!no_solution && (temp.getCol(temp) + count_null -1) > temp.getRow(temp)){
@@ -70,15 +70,15 @@ public class SPL {
                     for(int j = 0; j<temp.getLastColIdx(temp); j++){
                         if(temp.getElement(i, j) != 0){
                             if(temp.getElement(i, j) >0){
-                                System.out.print("+ x" + (j+1) + " ");
+                                result.append("+ x" + (j+1) + " ");
                             }
                             else{
-                                System.out.print("- x" + (j+1) + " ");
+                                result.append("- x" + (j+1) + " ");
                             }
                         }
                     }
-                    System.out.print("= " + temp.getElement(i, temp.getLastColIdx(temp)));
-                    System.out.println();
+                    result.append("= " + temp.getElement(i, temp.getLastColIdx(temp)));
+                    result.append("\n");
                 }   
             }
         }
@@ -102,11 +102,9 @@ public class SPL {
 
         if(!kosong && !no_solution){
             for(int i = 0; i<=hasil.getLastRowIdx(hasil) ; i++){
-                System.out.println("x" + (i+1) + " = " + hasil.getElement(i, 0));
+                result.append("x" + (i+1) + " = " + hasil.getElement(i, 0));
             }
         }
-
-        return hasil;
     }
 
     public Matrix gaussjordan(Matrix M1, Matrix M2){
@@ -134,7 +132,6 @@ public class SPL {
         for(int i = 0; i<=temp.getLastRowIdx(temp); i++){
             hasil.setElement(hasil, i, hasil.getLastColIdx(hasil), temp.getElement(i, temp.getLastColIdx(temp)));
         }
-
         return hasil;
     }
 }

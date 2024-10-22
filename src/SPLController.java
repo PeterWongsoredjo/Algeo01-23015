@@ -71,23 +71,17 @@ public class SPLController {
         }
     }
     
-    public void resultOutput(Matrix resultM, TextArea resulTextArea){
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < resultM.getRow(resultM); i++) {
-            result.append("x" + i + " = " + resultM.getElement(i, 0));
-            result.append("\n");
-        }
+    public void resultOutput(TextArea resulTextArea, StringBuilder result){
         resulTextArea.setText(result.toString());
     }
     
     public void gaussRun(){
         sizeMatrix();
         fillMatrix(matrixX, matrixY);
-        Matrix resultMatrix = new Matrix();
-        boolean kosong, no_solution;
-        resultMatrix = spl.gauss(matrixX, matrixY, kosong, no_solution);
-        
-        resultOutput(resultMatrix, outputField);
+        boolean kosong = false, no_solution = false;
+        StringBuilder result = new StringBuilder();
+        spl.gauss(matrixX, matrixY, kosong, no_solution, result);
+        resultOutput(outputField, result);
     }
 
     public void gaussJordanRun(){
@@ -95,7 +89,7 @@ public class SPLController {
         fillMatrix(matrixX, matrixY);
         Matrix resultMatrix = new Matrix();
         resultMatrix = spl.gaussjordan(matrixX, matrixY);
-        resultOutput(resultMatrix, outputField);
+        // resultOutput(resultMatrix, outputField);
     }
 
     public void inversRun(){
@@ -103,7 +97,7 @@ public class SPLController {
         fillMatrix(matrixX, matrixY);
         Matrix resultMatrix = new Matrix();
         resultMatrix = invers.SPLinv(matrixX, matrixY);
-        resultOutput(resultMatrix, outputField);
+        // resultOutput(resultMatrix, outputField);
     }
 
     public void cramerRun(){
@@ -111,7 +105,7 @@ public class SPLController {
         fillMatrix(matrixX, matrixY);
         Matrix resultMatrix = new Matrix();
         resultMatrix = cramer.cramer(matrixX, matrixY);
-        resultOutput(resultMatrix, outputField);
+        // resultOutput(resultMatrix, outputField);
     }
 
     public void switchToHome (ActionEvent event) throws Exception {
