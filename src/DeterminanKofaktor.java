@@ -7,4 +7,13 @@ public class DeterminanKofaktor extends Matrix {
 
     return determinankof;
   }
+
+  public void printdetkof(Matrix M){
+    Kofaktor kof = new Kofaktor();
+
+    double determinankof;
+    determinankof = kof.hitung(M);
+
+    System.out.println(determinankof);
+  }
 }
