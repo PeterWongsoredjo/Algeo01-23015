@@ -10,7 +10,7 @@ public class SPL {
         return temp_kosong;
     }
 
-    public Matrix gauss(Matrix M1, Matrix M2){
+    public Matrix gauss(Matrix M1, Matrix M2, Boolean kosong, Boolean no_solution){
         Matrix temp = new Matrix();
         Matrix hasil = new Matrix();
         Gauss gauss = new Gauss();
@@ -39,6 +39,7 @@ public class SPL {
         GaussJordan GJ = new GaussJordan();
         GJ.gaussjordan(temp);
         temp.printMatrix(temp);
+
 
         for(int i = temp.getLastRowIdx(temp); i>=0; i--){    
             boolean temp_kosong = true;
