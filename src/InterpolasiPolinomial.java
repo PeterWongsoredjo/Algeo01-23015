@@ -1,7 +1,8 @@
 import java.util.Scanner;
+import java.math.*;
 
 public class InterpolasiPolinomial {
-    public void polinomial(Matrix M){
+    public void polinomial(){
         GaussJordan GJ = new GaussJordan();
 
         Scanner scanner = new Scanner(System.in);
@@ -10,13 +11,11 @@ public class InterpolasiPolinomial {
         System.out.println("Input Derajat:");
         int degree = scanner.nextInt();
 
+        Matrix M = new Matrix();
         M.CreateMatrix(M, degree, degree+1);
 
         for (int i = 0; i < degree; i++) {
-            System.out.print("Enter x value for point " + (i + 1) + ": ");
             double x = scanner.nextDouble();  // Input x 
-
-            System.out.print("Enter y value for point " + (i + 1) + ": ");
             double y = scanner.nextDouble();  // Input y 
 
             for (int j = 0; j < degree; j++) {
@@ -28,9 +27,6 @@ public class InterpolasiPolinomial {
             if (i < degree) {
                 M.setElement(M, i, degree, y); 
             }
-
-            System.out.println("Updated matrix after point " + (i + 1) + ":");
-            M.printMatrix(M);
         }
 
         GJ.gaussjordan(M);
@@ -41,6 +37,12 @@ public class InterpolasiPolinomial {
             hasil.setElement(hasil, i, 0, M.getElement(i,M.getLastColIdx(M)));
         }
 
-        hasil.printMatrix(hasil);
+        Double Xin = scanner.nextDouble();
+        double result = 0;
+        for(int i = 0; i<M.getRow(M);i++){
+            result += (hasil.getElement(i,0) * Math.pow(Xin, i));
+        }
+
+        System.out.println(result);
     }
 }
