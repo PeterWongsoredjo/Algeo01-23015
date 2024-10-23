@@ -1,6 +1,7 @@
 public class RegresiKuadratikBerganda {
     public void regresikuadratik(Matrix MX, Matrix MY, StringBuilder result){
 
+
         Matrix ExtendedX = new Matrix();
         ExtendedX.CreateMatrix(ExtendedX, MX.getRow(MX), 6);
 
