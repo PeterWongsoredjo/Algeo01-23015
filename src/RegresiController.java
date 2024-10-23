@@ -13,7 +13,15 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class RegresiController {
     private Stage stage;
@@ -68,6 +76,57 @@ public class RegresiController {
     public void resultOutput(TextArea resulTextArea, StringBuilder result){
         resulTextArea.setText(result.toString());
     }
+
+    @FXML
+    public void handleFileLoad() {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                inputX.setText(br.readLine());
+                inputCase.setText(br.readLine());
+
+                StringBuilder matrixX = new StringBuilder();
+                StringBuilder matrixY = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split("\\s+");
+                    for (int i = 0; i < values.length - 1; i++) {
+                        matrixX.append(values[i]).append(" ");
+                    }
+                    matrixX.append("\n");
+                    matrixY.append(values[values.length - 1]).append("\n");
+                }
+                inputAreaX.setText(matrixX.toString());
+                inputAreaY.setText(matrixY.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    public void handleFileSave() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+        File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+                bw.write(inputX.getText() + "\n");
+                bw.write(inputCase.getText() + "\n");
+
+                String[] matrixXLines = inputAreaX.getText().split("\n");
+                String[] matrixYLines = inputAreaY.getText().split("\n");
+
+                for (int i = 0; i < matrixXLines.length; i++) {
+                    bw.write(matrixXLines[i] + " " + matrixYLines[i] + "\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     public void regresiLinearRun(){
         try{

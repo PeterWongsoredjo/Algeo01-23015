@@ -1,3 +1,5 @@
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +15,20 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+
+import javafx.stage.FileChooser;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class InversController {
     private Stage stage;
@@ -53,6 +68,63 @@ public class InversController {
             for (int j = 0; j < M.getCol(M); j++) {
                 M.setElement(M, i, j, Double.parseDouble(elements[j]));
             }
+        }
+    }
+
+    @FXML
+    public void handleLoadFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(null);
+        if (file != null) {
+            readFile(file);
+        }
+    }
+
+    private void readFile(File file) {
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            String firstLine = null;
+            boolean isFirstLine = true;
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    firstLine = line.trim(); // Assume the first line contains the value of n
+                    isFirstLine = false;
+                } else {
+                    content.append(line).append("\n");
+                }
+            }
+            inputMatrix.setText(content.toString());
+
+            // Set the value of inputN
+            if (firstLine != null && !firstLine.isEmpty()) {
+                inputN.setText(firstLine);
+            } else {
+                resultField.setText("Error: First line (n) is empty.");
+                return;
+            }
+        } catch (IOException e) {
+            resultField.setText("Error: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleSaveFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Output File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            saveFile(file);
+        }
+    }
+
+    private void saveFile(File file) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+            bw.write(resultField.getText());
+        } catch (IOException e) {
+            resultField.setText("Error: " + e.getMessage());
         }
     }
 
