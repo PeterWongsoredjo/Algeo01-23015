@@ -37,20 +37,21 @@ public class DeterminanController {
 
     @FXML
     public void sizeMatrix(){
-        String sizeMatrix = ukuranMatrix.getText();
+        String size = ukuranMatrix.getText();
 
-        int intRows = Integer.parseInt(sizeMatrix);
-        int intCols = Integer.parseInt(sizeMatrix);
-        
-        matrixDeterminan.CreateMatrix(matrixDeterminan, intRows, intCols);
+        int intSize = Integer.parseInt(size);
+
+        System.err.println(intSize);
+
+        matrixDeterminan.CreateMatrix(matrixDeterminan, intSize, intSize);
         System.out.println("Matrix Created.");
     }
 
     @FXML
-    public void fillMatrix(){
-        String fillMatrix = inputMatrix.getText();
+    public void fillMatrix(Matrix matrixDeterminan){
+        String fillMatrixDeterminan = inputMatrix.getText();
 
-        String[] rows = fillMatrix.trim().split("\n");
+        String[] rows = fillMatrixDeterminan.trim().split("\n");
         for (int i = 0; i < matrixDeterminan.getRow(matrixDeterminan); i++) {
             String[] elements = rows[i].trim().split("\\s+");
     
@@ -62,7 +63,7 @@ public class DeterminanController {
 
     public void DeterminanInversRun(){
         sizeMatrix();
-        fillMatrix();
+        fillMatrix(matrixDeterminan);
         double resultMatrix;
         matrixDeterminan.printMatrix(matrixDeterminan);
         resultMatrix = determinanNormal.determinan(matrixDeterminan);
@@ -73,7 +74,7 @@ public class DeterminanController {
 
     public void DeterminanControllerRun(){
         sizeMatrix();
-        fillMatrix();
+        fillMatrix(matrixDeterminan);
         double resultMatrix;
         matrixDeterminan.printMatrix(matrixDeterminan);
         resultMatrix = determinanBaris.determinanbaris(matrixDeterminan);
@@ -84,7 +85,7 @@ public class DeterminanController {
 
     public void DeterminanKofaktorRun(){
         sizeMatrix();
-        fillMatrix();
+        fillMatrix(matrixDeterminan);
         double resultMatrix;
         matrixDeterminan.printMatrix(matrixDeterminan);
         resultMatrix = determinanKofaktor.detkof(matrixDeterminan);
