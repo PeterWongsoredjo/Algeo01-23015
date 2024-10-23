@@ -14,6 +14,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class InterpolasiController {
@@ -64,20 +72,88 @@ public class InterpolasiController {
         }
     }
 
+    @FXML
+    public void handleLoadFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(null);
+        if (file != null) {
+            readFile(file);
+        }
+    }
+
+    private void readFile(File file) {
+        StringBuilder content = new StringBuilder();
+        String firstLine = null;
+        String lastLine = null;
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            boolean isFirstLine = true;
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    firstLine = line.trim(); // Assume the first line contains the value of n
+                    isFirstLine = false;
+                } else {
+                    if (lastLine != null) {
+                        content.append(lastLine).append("\n");
+                    }
+                    lastLine = line.trim(); // Assume the last line contains the value of x
+                }
+            }
+            // Remove the last line from content
+            if (content.length() > 0 && content.charAt(content.length() - 1) == '\n') {
+                content.deleteCharAt(content.length() - 1);
+            }
+            inputArea.setText(content.toString());
+
+            // Set the value of inputN
+            if (firstLine != null && !firstLine.isEmpty()) {
+                inputN.setText(firstLine);
+            } else {
+                resultField.setText("Error: First line (n) is empty.");
+                return;
+            }
+    
+            // Set the value of inputX
+            if (lastLine != null && !lastLine.isEmpty()) {
+                inputX.setText(lastLine);
+            } else {
+                resultField.setText("Error: Last line (x) is empty.");
+                return;
+            }
+        } catch (IOException e) {
+            resultField.setText("Error: " + e.getMessage());
+        }
+    }
+
     public void resultOutput(TextField resultField, StringBuilder result){
         resultField.setText(result.toString());
     }
 
     @FXML
+    public void handleSaveFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Output File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+        File file = fileChooser.showSaveDialog(null);
+        if (file != null) {
+            saveFile(file);
+        }
+    }
+
+    private void saveFile(File file) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+            bw.write(resultField.getText());
+        } catch (IOException e) {
+            resultField.setText("Error: " + e.getMessage());
+        }
+    }
+
+    @FXML
     private void calculateInterpolate(ActionEvent event) {
         try {
-            int degree = Integer.parseInt(inputN.getText());
-            Matrix M = new Matrix();
-            fillMatrix(M, degree);
-
-            // Parse the x input
-            double x = Double.parseDouble(inputX.getText());
-
+            sizeMatrix();
+            fillMatrix(M, M.getRow(M));
             GJ.gaussjordan(M);
         
             Matrix hasil = new Matrix();
@@ -88,7 +164,13 @@ public class InterpolasiController {
 
             double result = 0;
             for(int i = 0; i<M.getRow(M);i++){
-                result += (hasil.getElement(i,0) * Math.pow(x, i));
+                String xValue = inputX.getText();
+                if (xValue == null || xValue.isEmpty()) {
+                    String[] lines = inputArea.getText().split("\n");
+                    xValue = lines[lines.length - 1].trim(); // Assume the last line contains the value of x
+                }
+                double x = Double.parseDouble(xValue);
+                result += (hasil.getElement(i, 0) * Math.pow(x, i));
             }
             resultField.setText(Double.toString(result));
         } catch (Exception e) {
