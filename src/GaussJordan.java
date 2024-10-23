@@ -1,3 +1,6 @@
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class GaussJordan {
     public static double EPSILON = 1e-10;
 
@@ -25,9 +28,10 @@ public class GaussJordan {
     }
 
     public double multiplier(Matrix M,int d, int rowx){             // Rumus multiplier
-        double temp;
-        temp = M.getElement(rowx, d) / M.getElement(d, d);
-        return temp;
+        BigDecimal numerator = BigDecimal.valueOf(M.getElement(rowx, d));
+        BigDecimal denominator = BigDecimal.valueOf(M.getElement(d, d));
+        BigDecimal result = numerator.divide(denominator, 8, RoundingMode.HALF_UP);
+        return result.doubleValue();
     }
 
     public void gaussjordan(Matrix M){

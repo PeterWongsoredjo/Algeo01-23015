@@ -75,4 +75,12 @@ public class SceneController {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void switchToRegresiKuadratik (ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("RegresiKuadratik.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

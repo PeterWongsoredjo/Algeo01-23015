@@ -7,16 +7,16 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="437.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="437.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="RegresiController">
    <children>
-      <TextArea layoutX="54.0" layoutY="186.0" prefHeight="288.0" prefWidth="234.0" />
+      <TextArea fx:id="inputAreaX" layoutX="54.0" layoutY="186.0" prefHeight="288.0" prefWidth="234.0" />
       <Text layoutX="-5.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Regresi Linear Berganda" textAlignment="CENTER" wrappingWidth="437.0">
          <font>
             <Font name="Andale Mono" size="33.0" />
          </font>
       </Text>
-      <TextArea layoutX="295.0" layoutY="186.0" prefHeight="288.0" prefWidth="82.0" />
-      <TextField layoutX="54.0" layoutY="133.0" />
+      <TextArea fx:id="inputAreaY" layoutX="295.0" layoutY="186.0" prefHeight="288.0" prefWidth="82.0" />
+      <TextField fx:id="inputX" layoutX="54.0" layoutY="133.0" />
       <Text layoutX="61.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input banyak x">
          <font>
             <Font name="Avenir Roman" size="13.0" />
@@ -27,15 +27,15 @@
             <Font name="Avenir Roman" size="13.0" />
          </font>
       </Text>
-      <TextField layoutX="218.0" layoutY="133.0" />
+      <TextField fx:id="inputCase" layoutX="218.0" layoutY="133.0" />
       <Button layoutX="56.0" layoutY="594.0" mnemonicParsing="false" onAction="#switchToHome" text="Home" />
-      <Button layoutX="54.0" layoutY="483.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="Calculate" />
+      <Button layoutX="54.0" layoutY="483.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="Calculate" onAction="#regresiLinearRun" />
       <Text layoutX="301.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input y(i)">
          <font>
             <Font name="Avenir Roman" size="13.0" />
          </font>
       </Text>
-      <TextField layoutX="54.0" layoutY="553.0" prefHeight="26.0" prefWidth="323.0" />
+      <TextArea fx:id="resultField" layoutX="54.0" layoutY="553.0" prefHeight="26.0" prefWidth="323.0" />
       <Text layoutX="61.0" layoutY="545.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Output">
          <font>
             <Font name="Avenir Roman" size="13.0" />
@@ -46,5 +46,6 @@
             <Font name="Avenir Roman" size="13.0" />
          </font>
       </Text>
+      <Button layoutX="191.0" layoutY="592.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="186.0" text="Regresi Kuadratik Berganda" onAction="#switchToRegresiKuadratik" />
    </children>
 </AnchorPane>
