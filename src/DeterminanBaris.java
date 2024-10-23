@@ -4,7 +4,7 @@ public class DeterminanBaris {
         Matrix temp = new Matrix();
         temp.copyMatrix(M, temp);
 
-        G.gauss(temp);
+        G.gauss_det(temp);
         double det = 0;
 
         double base = 1;

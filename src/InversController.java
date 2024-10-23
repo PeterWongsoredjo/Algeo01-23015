@@ -135,7 +135,6 @@ public class InversController {
         }
     }
 
-
     public void switchToHome (ActionEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Home.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
