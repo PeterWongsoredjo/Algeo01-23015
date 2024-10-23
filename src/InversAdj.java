@@ -51,11 +51,7 @@ public class InversAdj extends Matrix {
 
     // Input Matriks Invers
     if (determinan == 0 || getRow(M) != getCol(M)) {
-      for (int i = 0; i < getRow(M); i++) {
-        for (int j = 0; j < getCol(M); j++) {
-          setElement(mInvers, i, j, MARK);
-        }
-      }
+      System.out.println("Matriks tidak memiliki invers");
     } else {
       for (int i = 0; i < getRow(kofaktor); i++) {
         for (int j = 0; j < getCol(kofaktor); j++) {
