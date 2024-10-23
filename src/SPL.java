@@ -66,35 +66,29 @@ public class SPL {
 
         if(!no_solution && (temp.getCol(temp) + count_null -1) > temp.getRow(temp)){
             for(int i = 0; i<=temp.getLastRowIdx(temp); i++){
-                if (!kosong(temp, i)){
-                    for(int j = 0; j<temp.getLastColIdx(temp); j++){
-                        if(temp.getElement(i, j) != 0){
-                            if(temp.getElement(i, j) >0){
-                                result.append("+ x" + (j+1) + " ");
+                int first = 0; 
+                if (!kosong(temp, i)){ 
+                    for(int j = 0; j<temp.getCol(temp) - 1; j++){          
+                        if (first == 0){
+                            if (temp.getElement(i, j) != 0){
+                                result.append (temp.getElement(i, j) + " x" + (j+1) + " ");
+                                first = 1;
                             }
-                            else{
-                                result.append("- x" + (j+1) + " ");
+                        } 
+                        else{
+                            if(temp.getElement(i, j) > 0){
+                                result.append("+" + temp.getElement(i, j) + " x" + (j+1) + " ");
+                            }
+                            if(temp.getElement(i, j) < 0){
+                                result.append(temp.getElement(i, j) + " x" + (j+1) + " ");
                             }
                         }
                     }
-                    result.append("= " + temp.getElement(i, temp.getLastColIdx(temp)));
+                    result.append("= " + temp.getElement(i, temp.getCol(temp) - 1));
                     result.append("\n");
                 }   
             }
         }
-
-        /* 
-
-        for (int i = M1.getRow(M1) - 1; i >= 0; i--) {
-            for (int k = i - 1; k >= 0; k--) {
-                double factor = temp.getElement(k, i);
-                for (int j = 0; j < M1.getCol(M1); j++) {
-                    temp.setElement(temp, k, j, temp.getElement(k, j) - factor * temp.getElement(i, j));
-                }
-            }
-        }
-        */
-        
 
         for(int i = 0; i<=temp.getLastRowIdx(temp); i++){
             hasil.setElement(hasil, i, hasil.getLastColIdx(hasil), temp.getElement(i, temp.getLastColIdx(temp)));
@@ -102,14 +96,15 @@ public class SPL {
 
         if(!kosong && !no_solution){
             for(int i = 0; i<=hasil.getLastRowIdx(hasil) ; i++){
-                result.append("x" + (i+1) + " = " + hasil.getElement(i, 0));
+                result.append("x" + (i+1) + " = " + hasil.getElement(i, 0) + "\n");
             }
         }
     }
 
-    public Matrix gaussjordan(Matrix M1, Matrix M2){
+    public void gaussjordan(Matrix M1, Matrix M2, Boolean kosong, Boolean no_solution, StringBuilder result){
         Matrix temp = new Matrix();
         Matrix hasil = new Matrix();
+        int count_null = 0;
 
         GaussJordan GJ = new GaussJordan();
 
@@ -128,10 +123,63 @@ public class SPL {
         hasil.CreateMatrix(hasil, M1.getRow(M1), 1);
 
         GJ.gaussjordan(temp);
+        for(int i = temp.getLastRowIdx(temp); i>=0; i--){    
+            boolean temp_kosong = true;
+            for(int j=0; j < temp.getLastColIdx(temp); j++){
+                // Cek Kosong
+                if (temp.getElement(i, j) != 0){
+                    temp_kosong =false;
+                }
+            }
+            if(temp_kosong){
+                if(temp.getElement(i, temp.getLastColIdx(temp)) == 0){
+                    kosong = true;
+                    count_null ++;
+                }
+                if(temp.getElement(i, temp.getLastColIdx(temp)) != 0){
+                    no_solution = true;
+                }
+            }
+        }
+
+        if(no_solution){
+            result.append("Tidak ada solusi yang memenuhi.");
+        }
+
+        if(!no_solution && (temp.getCol(temp) + count_null -1) > temp.getRow(temp)){
+            for(int i = 0; i<=temp.getLastRowIdx(temp); i++){
+                int first = 0; 
+                if (!kosong(temp, i)){ 
+                    for(int j = 0; j<temp.getCol(temp) - 1; j++){          
+                        if (first == 0){
+                            if (temp.getElement(i, j) != 0){
+                                result.append (temp.getElement(i, j) + " x" + (j+1) + " ");
+                                first = 1;
+                            }
+                        } 
+                        else{
+                            if(temp.getElement(i, j) > 0){
+                                result.append("+" + temp.getElement(i, j) + " x" + (j+1) + " ");
+                            }
+                            if(temp.getElement(i, j) < 0){
+                                result.append(temp.getElement(i, j) + " x" + (j+1) + " ");
+                            }
+                        }
+                    }
+                    result.append("= " + temp.getElement(i, temp.getCol(temp) - 1));
+                    result.append("\n");
+                }   
+            }
+        }
 
         for(int i = 0; i<=temp.getLastRowIdx(temp); i++){
             hasil.setElement(hasil, i, hasil.getLastColIdx(hasil), temp.getElement(i, temp.getLastColIdx(temp)));
         }
-        return hasil;
+
+        if(!kosong && !no_solution){
+            for(int i = 0; i<=hasil.getLastRowIdx(hasil) ; i++){
+                result.append("x" + (i+1) + " = " + hasil.getElement(i, 0) + "\n");
+            }
+        }
     }
 }

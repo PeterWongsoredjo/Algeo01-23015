@@ -87,24 +87,29 @@ public class SPLController {
     public void gaussJordanRun(){
         sizeMatrix();
         fillMatrix(matrixX, matrixY);
-        Matrix resultMatrix = new Matrix();
-        resultMatrix = spl.gaussjordan(matrixX, matrixY);
-        // resultOutput(resultMatrix, outputField);
+        boolean kosong = false, no_solution = false;
+        StringBuilder result = new StringBuilder();
+        spl.gaussjordan(matrixX, matrixY, kosong, no_solution, result);
+        resultOutput(outputField, result);
     }
 
     public void inversRun(){
         sizeMatrix();
         fillMatrix(matrixX, matrixY);
-        Matrix resultMatrix = new Matrix();
-        resultMatrix = invers.SPLinv(matrixX, matrixY);
+        boolean kosong = false, no_solution = false;
+        StringBuilder result = new StringBuilder();
+        invers.SPLinv(matrixX, matrixY, kosong, no_solution, result);
+        resultOutput(outputField, result);
         // resultOutput(resultMatrix, outputField);
     }
 
     public void cramerRun(){
         sizeMatrix();
         fillMatrix(matrixX, matrixY);
-        Matrix resultMatrix = new Matrix();
-        resultMatrix = cramer.cramer(matrixX, matrixY);
+        boolean kosong = false, no_solution = false;
+        StringBuilder result = new StringBuilder();
+        cramer.cramer(matrixX, matrixY, kosong, no_solution, result);
+        resultOutput(outputField, result);
         // resultOutput(resultMatrix, outputField);
     }
 
