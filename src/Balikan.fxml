@@ -14,17 +14,17 @@
             <Font name="Andale Mono" size="31.0" />
          </font>
       </Text>
-      <Button layoutX="54.0" layoutY="453.0" mnemonicParsing="false" text="Load File" onAction="#handleLoadFile"/>
-      <Button layoutX="300.0" layoutY="453.0" mnemonicParsing="false" text="Save File" onAction="#handleSaveFile"/>
+      <Button layoutX="284.0" layoutY="393.0" mnemonicParsing="false" onAction="#handleLoadFile" text="Load File" />
+      <Button layoutX="360.0" layoutY="393.0" mnemonicParsing="false" onAction="#handleSaveFile" text="Save File" />
       <TextArea fx:id="inputMatrix" layoutX="49.0" layoutY="183.0" prefHeight="200.0" prefWidth="200.0" />
       <Text layoutX="51.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input Matrix" />
       <Text layoutX="51.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input ukuran Matrix" />
       <TextField fx:id="inputN" layoutX="49.0" layoutY="113.0" />
       <TextArea fx:id="resultField" editable="false" layoutX="279.0" layoutY="183.0" prefHeight="200.0" prefWidth="200.0" />
       <Text layoutX="281.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Output" />
-      <Button layoutX="50.0" layoutY="429.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="79.0" text="Gauss" onAction="#InversGaussRun" />
+      <Button layoutX="50.0" layoutY="429.0" mnemonicParsing="false" onAction="#InversGaussRun" prefHeight="32.0" prefWidth="79.0" text="Gauss" />
       <Text layoutX="51.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pilih Metode" />
-      <Button layoutX="140.0" layoutY="429.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="79.0" text="Adjoin" onAction="#InversAdj" />
+      <Button layoutX="140.0" layoutY="429.0" mnemonicParsing="false" onAction="#InversAdj" prefHeight="32.0" prefWidth="79.0" text="Adjoin" />
       <Button layoutX="9.0" layoutY="483.0" mnemonicParsing="false" onAction="#switchToHome" text="Home" />
    </children>
 </AnchorPane>
