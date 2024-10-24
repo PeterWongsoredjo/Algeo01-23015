@@ -14,10 +14,15 @@ public class SPLCramer extends Matrix {
 
     // Menghitung determinan awal
     DeterminanKofaktor det = new DeterminanKofaktor();
-    double detM = det.detkof(M1);
+    
 
-    if (M1.getCol(M1) == M1.getRow(M1)){
+    if (M1.getCol(M1) != M1.getRow(M1)){
+      result.append("Invalid Input");
+      return;
+    }
+    else{
     // Hitung Hasil
+      double detM = det.detkof(M1);
       Matrix mHasil = new Matrix();
       CreateMatrix(mHasil, getRow(M1), 1);
       Matrix tempcheck = new Matrix();
@@ -105,9 +110,6 @@ public class SPLCramer extends Matrix {
           result.append("x" + (i+1) + " = " + mHasil.getElement(i, 0) + "\n");
         } 
       }
-    }
-    else{
-      result.append("Input invalid.");
     }
   }
 }
