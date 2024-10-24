@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegresiController {
     private Stage stage;
@@ -42,6 +44,9 @@ public class RegresiController {
 
     @FXML
     private TextField inputX;
+
+    @FXML
+    private TextField newInputField;
 
     @FXML
     public void sizeMatrix(Matrix mX, Matrix mY){
@@ -81,24 +86,43 @@ public class RegresiController {
     public void handleFileLoad() {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(stage);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
         if (file != null) {
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                inputX.setText(br.readLine());
-                inputCase.setText(br.readLine());
-
                 StringBuilder matrixX = new StringBuilder();
                 StringBuilder matrixY = new StringBuilder();
                 String line;
+                List<String> lines = new ArrayList<>();
+
                 while ((line = br.readLine()) != null) {
-                    String[] values = line.split("\\s+");
-                    for (int i = 0; i < values.length - 1; i++) {
-                        matrixX.append(values[i]).append(" ");
+                    lines.add(line);
+                }
+
+                // Set the number of test cases and inputX
+                if (!lines.isEmpty()) {
+                    String[] firstLine = lines.get(0).split("\\s+");
+                    inputCase.setText(firstLine[0]);
+                    inputX.setText(firstLine[1]);
+                }
+
+                // Process the matrix data
+                for (int i = 1; i < lines.size() - 1; i++) {
+                    String[] values = lines.get(i).split("\\s+");
+                    for (int j = 0; j < values.length - 1; j++) {
+                        matrixX.append(values[j]).append(" ");
                     }
                     matrixX.append("\n");
                     matrixY.append(values[values.length - 1]).append("\n");
                 }
+
+                // Set the matrix data to the text areas
                 inputAreaX.setText(matrixX.toString());
                 inputAreaY.setText(matrixY.toString());
+
+                // Set the last line to the new input field
+                if (!lines.isEmpty()) {
+                    newInputField.setText(lines.get(lines.size() - 1));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -128,35 +152,45 @@ public class RegresiController {
     }
 
 
-    public void regresiLinearRun(){
-        try{
+    public void regresiLinearRun() {
+        try {
             Matrix mX = new Matrix();
             Matrix mY = new Matrix();
+    
             sizeMatrix(mX, mY);
             fillMatrix(mX, mY);
-
+    
+            // Parse the new input field
+            String newInput = newInputField.getText();
+            String[] newInputValues = newInput.split("\\s+");
+            double[] xValues = new double[newInputValues.length];
+            for (int i = 0; i < newInputValues.length; i++) {
+                xValues[i] = Double.parseDouble(newInputValues[i]);
+            }
+    
             StringBuilder result = new StringBuilder();
             Matrix resultMatrix = new Matrix();
             resultMatrix.CreateMatrix(resultMatrix, 2, 1);
-
+    
             RegresiLinearBerganda regresiLinear = new RegresiLinearBerganda();
-            
             Matrix hasil = regresiLinear.processRegression(mX, mY);
-
+    
+            // Calculate the result_y using the parsed x values
+            double result_y = 0;
             for (int i = 0; i < hasil.getRow(hasil); i++) {
-                for (int j = 0; j < hasil.getCol(hasil); j++) {
-                    result.append(hasil.getElement(i, j));
-                }
-                result.append("\n");
+                result_y += hasil.getElement(i, 0) * xValues[i];
             }
+    
+            // Append the calculated result_y to the result string
+            result.append("Result y: ").append(result_y).append("\n");
+    
             hasil.printMatrix(hasil);
-
             resultOutput(resultField, result);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    
     public void switchToRegresiKuadratik (ActionEvent event) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("RegresiKuadratik.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

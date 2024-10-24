@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegresiKuadratikController {
     private Stage stage;
@@ -39,6 +41,9 @@ public class RegresiKuadratikController {
 
     @FXML
     private TextField inputCase;
+
+    @FXML
+    private TextField newInputField;
 
     @FXML
     public void sizeMatrix(Matrix mX1, Matrix mY){
@@ -75,28 +80,46 @@ public class RegresiKuadratikController {
     public void handleFileLoad() {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(stage);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
         if (file != null) {
             try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-                inputCase.setText(br.readLine());
-
                 StringBuilder matrixX = new StringBuilder();
                 StringBuilder matrixY = new StringBuilder();
                 String line;
+                List<String> lines = new ArrayList<>();
+
                 while ((line = br.readLine()) != null) {
-                    String[] values = line.split("\\s+");
-                    for (int i = 0; i < 2; i++) {
-                        matrixX.append(values[i]).append(" ");
+                    lines.add(line);
+                }
+
+                // Set the number of test cases
+                if (!lines.isEmpty()) {
+                    inputCase.setText(lines.get(0));
+                }
+
+                // Process the matrix data
+                for (int i = 1; i < lines.size() - 1; i++) {
+                    String[] values = lines.get(i).split("\\s+");
+                    for (int j = 0; j < values.length - 1; j++) {
+                        matrixX.append(values[j]).append(" ");
                     }
                     matrixX.append("\n");
                     matrixY.append(values[values.length - 1]).append("\n");
                 }
+                // Set the matrix data to the text areas
                 inputAreaX.setText(matrixX.toString());
                 inputAreaY.setText(matrixY.toString());
+
+                // Set the last line to the new input field
+                if (!lines.isEmpty()) {
+                    newInputField.setText(lines.get(lines.size() - 1));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     @FXML
     public void handleFileSave() {
@@ -127,10 +150,16 @@ public class RegresiKuadratikController {
             sizeMatrix(mX, mY);
             fillMatrix(mX, mY);
 
+            String newInput = newInputField.getText();
+            String[] newInputValues = newInput.split(" ");
+            double x1 = Double.parseDouble(newInputValues[0]);
+            double x2 = Double.parseDouble(newInputValues[1]);
+
             StringBuilder result = new StringBuilder();
 
             RegresiKuadratikBerganda regresi = new RegresiKuadratikBerganda();
-            regresi.regresikuadratik(mX, mY, result);
+
+            regresi.regresikuadratiktaksir(mX, mY, x1, x2, result);
 
             resultOutput(resultField, result);
         } catch (Exception e){
