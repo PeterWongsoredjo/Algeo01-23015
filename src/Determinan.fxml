@@ -15,8 +15,8 @@
          </font>
       </Text>
       <TextArea fx:id="inputMatrix" layoutX="49.0" layoutY="183.0" prefHeight="200.0" prefWidth="200.0" />
-      <Button layoutX="54.0" layoutY="453.0" mnemonicParsing="false" text="Load File" onAction="#handleLoadFile"/>
-      <Button layoutX="300.0" layoutY="453.0" mnemonicParsing="false" text="Save File" onAction="#handleSaveFile"/>
+      <Button layoutX="284.0" layoutY="393.0" mnemonicParsing="false" onAction="#handleLoadFile" text="Load File" />
+      <Button layoutX="360.0" layoutY="393.0" mnemonicParsing="false" onAction="#handleSaveFile" text="Save File" />
       <Text layoutX="51.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input Matrix" />
       <Text layoutX="51.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input ukuran Matrix" />
       <TextArea fx:id="outputMatrix" editable="false" layoutX="279.0" layoutY="183.0" prefHeight="200.0" prefWidth="200.0" />
