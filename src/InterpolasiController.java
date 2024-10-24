@@ -91,30 +91,27 @@ public class InterpolasiController {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
-                    firstLine = line.trim(); // Assume the first line contains the value of n
+                    firstLine = line.trim(); 
                     isFirstLine = false;
                 } else {
                     if (lastLine != null) {
                         content.append(lastLine).append("\n");
                     }
-                    lastLine = line.trim(); // Assume the last line contains the value of x
+                    lastLine = line.trim(); 
                 }
             }
-            // Remove the last line from content
             if (content.length() > 0 && content.charAt(content.length() - 1) == '\n') {
                 content.deleteCharAt(content.length() - 1);
             }
             inputArea.setText(content.toString());
 
-            // Set the value of inputN
             if (firstLine != null && !firstLine.isEmpty()) {
                 inputN.setText(firstLine);
             } else {
                 resultField.setText("Error: First line (n) is empty.");
                 return;
             }
-    
-            // Set the value of inputX
+            
             if (lastLine != null && !lastLine.isEmpty()) {
                 inputX.setText(lastLine);
             } else {
@@ -161,13 +158,14 @@ public class InterpolasiController {
             for(int i = 0; i<M.getRow(M); i++){
                 hasil.setElement(hasil, i, 0, M.getElement(i,M.getLastColIdx(M)));
             }
+            hasil.printMatrix(hasil);
 
             double result = 0;
             for(int i = 0; i<M.getRow(M);i++){
                 String xValue = inputX.getText();
                 if (xValue == null || xValue.isEmpty()) {
                     String[] lines = inputArea.getText().split("\n");
-                    xValue = lines[lines.length - 1].trim(); // Assume the last line contains the value of x
+                    xValue = lines[lines.length - 1].trim(); 
                 }
                 double x = Double.parseDouble(xValue);
                 result += (hasil.getElement(i, 0) * Math.pow(x, i));

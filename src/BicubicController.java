@@ -101,15 +101,12 @@ public class BicubicController {
             Matrix mX = new Matrix();
             fillMatrix(mX);
 
-            // Parse the x and y input
             String[] xy = inputArea.getText().split("\n")[4].split("\\s+");
             double x = Double.parseDouble(xy[0]);
             double y = Double.parseDouble(xy[1]);
 
-            // Perform bicubic spline interpolation (assuming a method exists)
             double result = bicubicSplineInterpolation.Interpolation(mX, x, y);
 
-            // Display the result
             resultField.setText("Result: " + result);
         } catch (Exception e) {
             resultField.setText("Error: " + e.getMessage());

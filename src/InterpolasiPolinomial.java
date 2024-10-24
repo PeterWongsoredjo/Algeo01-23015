@@ -37,6 +37,8 @@ public class InterpolasiPolinomial {
             hasil.setElement(hasil, i, 0, M.getElement(i,M.getLastColIdx(M)));
         }
 
+        hasil.printMatrix(hasil);
+
         Double Xin = scanner.nextDouble();
         double result = 0;
         for(int i = 0; i<M.getRow(M);i++){

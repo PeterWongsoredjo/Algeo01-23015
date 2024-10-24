@@ -87,7 +87,7 @@ public class DeterminanController {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
-                    firstLine = line.trim(); // Assume the first line contains the size of the matrix (n)
+                    firstLine = line.trim(); 
                     isFirstLine = false;
                 } else {
                     content.append(line).append("\n");
@@ -95,7 +95,6 @@ public class DeterminanController {
             }
             inputMatrix.setText(content.toString());
 
-            // Set the value of ukuranMatrix
             if (firstLine != null && !firstLine.isEmpty()) {
                 ukuranMatrix.setText(firstLine);
             } else {

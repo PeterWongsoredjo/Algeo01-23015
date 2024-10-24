@@ -94,9 +94,11 @@ public class SPL {
             hasil.setElement(hasil, i, hasil.getLastColIdx(hasil), temp.getElement(i, temp.getLastColIdx(temp)));
         }
 
-        if(!kosong && !no_solution){
+        if(!((temp.getCol(temp) + count_null -1) > temp.getRow(temp)) && !no_solution){   
             for(int i = 0; i<=hasil.getLastRowIdx(hasil) ; i++){
-                result.append("x" + (i+1) + " = " + hasil.getElement(i, 0) + "\n");
+                if(!kosong(temp,i)){
+                    result.append("x" + (i+1) + " = " + hasil.getElement(i, 0) + "\n");
+                }
             }
         }
     }
@@ -176,9 +178,11 @@ public class SPL {
             hasil.setElement(hasil, i, hasil.getLastColIdx(hasil), temp.getElement(i, temp.getLastColIdx(temp)));
         }
 
-        if(!kosong && !no_solution){
+        if(!((temp.getCol(temp) + count_null -1) > temp.getRow(temp)) && !no_solution){   
             for(int i = 0; i<=hasil.getLastRowIdx(hasil) ; i++){
-                result.append("x" + (i+1) + " = " + hasil.getElement(i, 0) + "\n");
+                if(!kosong(temp,i)){
+                    result.append("x" + (i+1) + " = " + hasil.getElement(i, 0) + "\n");
+                }
             }
         }
     }

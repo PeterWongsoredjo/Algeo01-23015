@@ -46,29 +46,26 @@ public class RegresiKuadratikController {
     private TextField newInputField;
 
     @FXML
-    public void sizeMatrix(Matrix mX1, Matrix mY){
-        String sizeMatrix = inputCase.getText();
+    private void sizeMatrix(Matrix mX, Matrix mY) {
+        int numRows = inputAreaX.getText().split("\n").length;
+        int numCols = inputAreaX.getText().split("\\s+").length / numRows;
 
-        int intRows = Integer.parseInt(sizeMatrix);
-        int intCols = 2;
-
-        mX1.CreateMatrix(mX1, intRows, intCols);
-        mY.CreateMatrix(mY, intRows, 1);
+        mX.CreateMatrix(mX, numRows, numCols);
+        mY.CreateMatrix(mY, numRows, 1);
     }
 
-    @FXML
-    public void fillMatrix(Matrix mX, Matrix mY){
+    private void fillMatrix(Matrix mX, Matrix mY) {
         String[] rowsX = inputAreaX.getText().split("\n");
-        String[] rowsY = inputAreaY.getText().split("\n");
-
         for (int i = 0; i < rowsX.length; i++) {
             String[] elementsX = rowsX[i].trim().split("\\s+");
-            String[] elementsY = rowsY[i].trim().split("\\s+");
-
-            for(int j = 0; j < elementsX.length; j++){
+            for (int j = 0; j < elementsX.length; j++) {
                 mX.setElement(mX, i, j, Double.parseDouble(elementsX[j]));
             }
-            mY.setElement(mY, i, 0, Double.parseDouble(elementsY[0]));
+        }
+
+        String[] rowsY = inputAreaY.getText().split("\n");
+        for (int i = 0; i < rowsY.length; i++) {
+            mY.setElement(mY, i, 0, Double.parseDouble(rowsY[i].trim()));
         }
     }
 
@@ -92,12 +89,12 @@ public class RegresiKuadratikController {
                     lines.add(line);
                 }
 
-                // Set the number of test cases
                 if (!lines.isEmpty()) {
-                    inputCase.setText(lines.get(0));
+                    String[] firstLine = lines.get(0).split("\\s+");
+                    inputCase.setText(firstLine[0]);
+                    inputAreaX.setText(firstLine[1]);
                 }
 
-                // Process the matrix data
                 for (int i = 1; i < lines.size() - 1; i++) {
                     String[] values = lines.get(i).split("\\s+");
                     for (int j = 0; j < values.length - 1; j++) {
@@ -106,11 +103,10 @@ public class RegresiKuadratikController {
                     matrixX.append("\n");
                     matrixY.append(values[values.length - 1]).append("\n");
                 }
-                // Set the matrix data to the text areas
+
                 inputAreaX.setText(matrixX.toString());
                 inputAreaY.setText(matrixY.toString());
 
-                // Set the last line to the new input field
                 if (!lines.isEmpty()) {
                     newInputField.setText(lines.get(lines.size() - 1));
                 }
@@ -142,8 +138,8 @@ public class RegresiKuadratikController {
         }
     }
 
-    public void regresiKuadratikRun(){
-        try{
+    public void regresiKuadratikRun() {
+        try {
             Matrix mX = new Matrix();
             Matrix mY = new Matrix();
 
@@ -151,18 +147,20 @@ public class RegresiKuadratikController {
             fillMatrix(mX, mY);
 
             String newInput = newInputField.getText();
-            String[] newInputValues = newInput.split(" ");
-            double x1 = Double.parseDouble(newInputValues[0]);
-            double x2 = Double.parseDouble(newInputValues[1]);
+            String[] newInputValues = newInput.split("\\s+");
+            double[] xValues = new double[newInputValues.length];
+            for (int i = 0; i < newInputValues.length; i++) {
+                xValues[i] = Double.parseDouble(newInputValues[i]);
+            }
 
             StringBuilder result = new StringBuilder();
 
             RegresiKuadratikBerganda regresi = new RegresiKuadratikBerganda();
 
-            regresi.regresikuadratiktaksir(mX, mY, x1, x2, result);
+            regresi.regresikuadratiktaksir(mX, mY, xValues, result);
 
             resultOutput(resultField, result);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -103,7 +103,7 @@ public class SPLController {
             boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
                 if (isFirstLine) {
-                    firstLine = line.trim(); // Assume the first line contains the row and column
+                    firstLine = line.trim(); 
                     isFirstLine = false;
                 } else {
                     String[] values = line.trim().split("\\s+");
@@ -114,7 +114,7 @@ public class SPLController {
                     yContent.append(values[values.length - 1]).append("\n");
                 }
             }
-            // Set the value of rowField and colField
+
             if (firstLine != null && !firstLine.isEmpty()) {
                 String[] dimensions = firstLine.split("\\s+");
                 if (dimensions.length == 2) {
@@ -129,7 +129,6 @@ public class SPLController {
                 return;
             }
 
-            // Set the content of xField and yField
             xField.setText(xContent.toString().trim());
             yField.setText(yContent.toString().trim());
         } catch (IOException e) {

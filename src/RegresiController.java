@@ -98,14 +98,12 @@ public class RegresiController {
                     lines.add(line);
                 }
 
-                // Set the number of test cases and inputX
                 if (!lines.isEmpty()) {
                     String[] firstLine = lines.get(0).split("\\s+");
                     inputCase.setText(firstLine[0]);
                     inputX.setText(firstLine[1]);
                 }
 
-                // Process the matrix data
                 for (int i = 1; i < lines.size() - 1; i++) {
                     String[] values = lines.get(i).split("\\s+");
                     for (int j = 0; j < values.length - 1; j++) {
@@ -115,11 +113,9 @@ public class RegresiController {
                     matrixY.append(values[values.length - 1]).append("\n");
                 }
 
-                // Set the matrix data to the text areas
                 inputAreaX.setText(matrixX.toString());
                 inputAreaY.setText(matrixY.toString());
 
-                // Set the last line to the new input field
                 if (!lines.isEmpty()) {
                     newInputField.setText(lines.get(lines.size() - 1));
                 }
@@ -160,7 +156,6 @@ public class RegresiController {
             sizeMatrix(mX, mY);
             fillMatrix(mX, mY);
     
-            // Parse the new input field
             String newInput = newInputField.getText();
             String[] newInputValues = newInput.split("\\s+");
             double[] xValues = new double[newInputValues.length];
@@ -175,13 +170,11 @@ public class RegresiController {
             RegresiLinearBerganda regresiLinear = new RegresiLinearBerganda();
             Matrix hasil = regresiLinear.processRegression(mX, mY);
     
-            // Calculate the result_y using the parsed x values
             double result_y = 0;
             for (int i = 0; i < hasil.getRow(hasil); i++) {
                 result_y += hasil.getElement(i, 0) * xValues[i];
             }
     
-            // Append the calculated result_y to the result string
             result.append("Result y: ").append(result_y).append("\n");
     
             hasil.printMatrix(hasil);

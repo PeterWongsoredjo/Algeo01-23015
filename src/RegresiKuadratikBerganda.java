@@ -50,137 +50,98 @@ public class RegresiKuadratikBerganda {
         return temp_kosong;
     }
 
-    public void regresikuadratiktaksir(Matrix MX, Matrix MY, double xi, double xj, StringBuilder result){
+    public void regresikuadratiktaksir(Matrix MX, Matrix MY, double[] xi, StringBuilder result) {
 
+        int numVariables = MX.getCol(MX); 
+        int numDataPoints = MX.getRow(MX); 
+    
+        int numTerms = 1 + numVariables + numVariables + (numVariables * (numVariables - 1)) / 2;
+    
         Matrix ExtendedX = new Matrix();
-        ExtendedX.CreateMatrix(ExtendedX, MX.getRow(MX), 6);
+        ExtendedX.CreateMatrix(ExtendedX, numDataPoints, numTerms);
 
-        // Bikin Matrix ExtendedX
-        for(int i = 0; i < ExtendedX.getRow(ExtendedX); i++){
-            double x1 = MX.getElement(i, 0);
-            double x2 = MX.getElement(i, 1);
-
-            ExtendedX.setElement(ExtendedX, i, 0, 1);
-            ExtendedX.setElement(ExtendedX, i, 1, x1);
-            ExtendedX.setElement(ExtendedX, i, 2, x2);
-            ExtendedX.setElement(ExtendedX, i, 3, x1 * x1);
-            ExtendedX.setElement(ExtendedX, i, 4, x2 * x2);
-            ExtendedX.setElement(ExtendedX, i, 5, x1 * x2);
+        for (int i = 0; i < numDataPoints; i++) {
+            int col = 0;
+            ExtendedX.setElement(ExtendedX, i, col++, 1);
+    
+            for (int j = 0; j < numVariables; j++) {
+                double x = MX.getElement(i, j);
+                ExtendedX.setElement(ExtendedX, i, col++, x);
+            }
+    
+            for (int j = 0; j < numVariables; j++) {
+                double x = MX.getElement(i, j);
+                ExtendedX.setElement(ExtendedX, i, col++, x * x);
+            }
+    
+            for (int j = 0; j < numVariables; j++) {
+                for (int k = j + 1; k < numVariables; k++) {
+                    double x1 = MX.getElement(i, j);
+                    double x2 = MX.getElement(i, k);
+                    ExtendedX.setElement(ExtendedX, i, col++, x1 * x2);
+                }
+            }
         }
-        //ExtendedX.printMatrix(ExtendedX);
-
-        // Bikin Matrix Transpose dari Extend
-        Matrix TransposeX = new Matrix();
-        TransposeX = ExtendedX.transposeMatrix(ExtendedX);
-        //TransposeX.printMatrix(TransposeX);
-
-        // Kaliin Transpose sama MX
+    
+        Matrix TransposeX = ExtendedX.transposeMatrix(ExtendedX);
+    
+        // Multiply TransposeX with ExtendedX (XTX)
         Matrix XTX = new Matrix();
         XTX = XTX.multiplyMatrix(TransposeX, ExtendedX);
-        //XTX.printMatrix(XTX);
-        
-        // Kaliin Transpose sama MY
+    
+        // Multiply TransposeX with MY (XTY)
         Matrix XTY = new Matrix();
         XTY = XTY.multiplyMatrix(TransposeX, MY);
-        //XTY.printMatrix(XTY);
-
+    
+        // Create augmented matrix for Gaussian elimination
         Matrix temp = new Matrix();
         Matrix hasil = new Matrix();
-        Gauss gauss = new Gauss();
-
         temp.CreateMatrix(temp, XTX.getRow(XTX), XTX.getCol(XTX) + 1);
-
-        for(int i = 0; i<XTX.getRow(XTX); i++){
-            for(int j = 0; j<XTX.getCol(XTX); j++){
+    
+        for (int i = 0; i < XTX.getRow(XTX); i++) {
+            for (int j = 0; j < XTX.getCol(XTX); j++) {
                 temp.setElement(temp, i, j, XTX.getElement(i, j));
             }
+            // Append XTY as the last column
+            temp.setElement(temp, i, temp.getLastColIdx(temp), XTY.getElement(i, 0));
         }
-
-        for(int i = 0; i < XTX.getRow(XTX); i++){
-            temp.setElement(temp, i, temp.getLastColIdx(temp), XTY.getElement(i,0));
-        }
-
-        hasil.CreateMatrix(hasil, XTX.getRow(XTX), 1);
-
+    
+        // Apply Gaussian elimination and Gauss-Jordan elimination
+        Gauss gauss = new Gauss();
         gauss.gauss(temp);
-        temp.printMatrix(temp);
-
-        boolean kosong = false;
-        boolean no_solution = false;
-        int count_null = 0;
-
+    
         GaussJordan GJ = new GaussJordan();
         GJ.gaussjordan(temp);
-        temp.printMatrix(temp);
-
-
-        for(int i = temp.getLastRowIdx(temp); i>=0; i--){    
-            boolean temp_kosong = true;
-            for(int j=0; j < temp.getLastColIdx(temp); j++){
-                // Cek Kosong
-                if (temp.getElement(i, j) != 0){
-                    temp_kosong =false;
-                }
-            }
-            if(temp_kosong){
-                if(temp.getElement(i, temp.getLastColIdx(temp)) == 0){
-                    kosong = true;
-                    count_null ++;
-                }
-                if(temp.getElement(i, temp.getLastColIdx(temp)) != 0){
-                    no_solution = true;
-                }
-            }
-        }
-
-        if(no_solution){
-            result.append("Tidak ada solusi yang memenuhi.");
-        }
-
-        if(!no_solution && (temp.getCol(temp) + count_null -1) > temp.getRow(temp)){
-            for(int i = 0; i<=temp.getLastRowIdx(temp); i++){
-                int first = 0; 
-                if (!kosong(temp, i)){ 
-                    for(int j = 0; j<temp.getCol(temp) - 1; j++){          
-                        if (first == 0){
-                            if (temp.getElement(i, j) != 0){
-                                result.append (temp.getElement(i, j) + " b" + (j+1) + " ");
-                                first = 1;
-                            }
-                        } 
-                        else{
-                            if(temp.getElement(i, j) > 0){
-                                result.append("+" + temp.getElement(i, j) + " b" + (j+1) + " ");
-                            }
-                            if(temp.getElement(i, j) < 0){
-                                result.append(temp.getElement(i, j) + " b" + (j+1) + " ");
-                            }
-                        }
-                    }
-                    result.append("= " + temp.getElement(i, temp.getCol(temp) - 1));
-                    result.append("\n");
-                }   
-            }
-        }
-
-        /* 
-
-        for (int i = XTX.getRow(XTX) - 1; i >= 0; i--) {
-            for (int k = i - 1; k >= 0; k--) {
-                double factor = temp.getElement(k, i);
-                for (int j = 0; j < XTX.getCol(XTX); j++) {
-                    temp.setElement(temp, k, j, temp.getElement(k, j) - factor * temp.getElement(i, j));
-                }
-            }
-        }
-        */
-        
-
-        for(int i = 0; i<=temp.getLastRowIdx(temp); i++){
+    
+        // Extract the solution (regression coefficients)
+        hasil.CreateMatrix(hasil, XTX.getRow(XTX), 1);
+        for (int i = 0; i <= temp.getLastRowIdx(temp); i++) {
             hasil.setElement(hasil, i, hasil.getLastColIdx(hasil), temp.getElement(i, temp.getLastColIdx(temp)));
         }
-
-       double result_y = hasil.getElement(0, 0) + hasil.getElement(1, 0) * xi + hasil.getElement(2, 0) * xj + hasil.getElement(3, 0) * xi * xi + hasil.getElement(4, 0) * xj * xj + hasil.getElement(5, 0) * xi * xj;
-       result.append("Hasil taksiran y = " + result_y);
+    
+        // Compute the predicted y using the calculated coefficients and the input values xi[]
+        double result_y = hasil.getElement(0, 0); // Intercept
+        int col = 1;
+    
+        // Linear terms
+        for (int i = 0; i < xi.length; i++) {
+            result_y += hasil.getElement(col++, 0) * xi[i];
+        }
+    
+        // Quadratic terms
+        for (int i = 0; i < xi.length; i++) {
+            result_y += hasil.getElement(col++, 0) * xi[i] * xi[i];
+        }
+    
+        // Interaction terms
+        for (int i = 0; i < xi.length; i++) {
+            for (int j = i + 1; j < xi.length; j++) {
+                result_y += hasil.getElement(col++, 0) * xi[i] * xi[j];
+            }
+        }
+    
+        // Output the result
+        result.append("Hasil taksiran y = " + result_y);
     }
+    
 }
