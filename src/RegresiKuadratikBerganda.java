@@ -39,7 +39,18 @@ public class RegresiKuadratikBerganda {
         spl.gauss(XTX, XTY, false, false, result);
     }
 
-    public void regresikuadratiktaksir(Matrix MX, Matrix MY, double x, StringBuilder result){
+    private boolean kosong(Matrix M, int i){ 
+        boolean temp_kosong = true;
+        for(int j=0; j < M.getLastColIdx(M); j++){
+            // Cek Kosong
+            if (M.getElement(i, j) != 0){
+                temp_kosong =false;
+            }
+        }
+        return temp_kosong;
+    }
+
+    public void regresikuadratiktaksir(Matrix MX, Matrix MY, double xi, double xj, StringBuilder result){
 
         Matrix ExtendedX = new Matrix();
         ExtendedX.CreateMatrix(ExtendedX, MX.getRow(MX), 6);
@@ -128,18 +139,25 @@ public class RegresiKuadratikBerganda {
 
         if(!no_solution && (temp.getCol(temp) + count_null -1) > temp.getRow(temp)){
             for(int i = 0; i<=temp.getLastRowIdx(temp); i++){
-                if (!kosong){
-                    for(int j = 0; j<temp.getLastColIdx(temp); j++){
-                        if(temp.getElement(i, j) != 0){
-                            if(temp.getElement(i, j) >0){
-                                result.append("+ x" + (j+1) + " ");
+                int first = 0; 
+                if (!kosong(temp, i)){ 
+                    for(int j = 0; j<temp.getCol(temp) - 1; j++){          
+                        if (first == 0){
+                            if (temp.getElement(i, j) != 0){
+                                result.append (temp.getElement(i, j) + " b" + (j+1) + " ");
+                                first = 1;
                             }
-                            else{
-                                result.append("- x" + (j+1) + " ");
+                        } 
+                        else{
+                            if(temp.getElement(i, j) > 0){
+                                result.append("+" + temp.getElement(i, j) + " b" + (j+1) + " ");
+                            }
+                            if(temp.getElement(i, j) < 0){
+                                result.append(temp.getElement(i, j) + " b" + (j+1) + " ");
                             }
                         }
                     }
-                    result.append("= " + temp.getElement(i, temp.getLastColIdx(temp)));
+                    result.append("= " + temp.getElement(i, temp.getCol(temp) - 1));
                     result.append("\n");
                 }   
             }
@@ -162,10 +180,7 @@ public class RegresiKuadratikBerganda {
             hasil.setElement(hasil, i, hasil.getLastColIdx(hasil), temp.getElement(i, temp.getLastColIdx(temp)));
         }
 
-        if(!kosong && !no_solution){
-            for(int i = 0; i<=hasil.getLastRowIdx(hasil) ; i++){
-                result.append("x" + (i+1) + " = " + hasil.getElement(i, 0));
-            }
-        }
+       double result_y = hasil.getElement(0, 0) + hasil.getElement(1, 0) * xi + hasil.getElement(2, 0) * xj + hasil.getElement(3, 0) * xi * xi + hasil.getElement(4, 0) * xj * xj + hasil.getElement(5, 0) * xi * xj;
+       result.append("Hasil taksiran y = " + result_y);
     }
 }

@@ -30,6 +30,7 @@
          </font>
       </Text>
       <TextField fx:id="inputCase" layoutX="218.0" layoutY="133.0" />
+      <TextField fx:id="newInputField" layoutX="54.0" layoutY="400.0" prefWidth="200.0" />
       <Button layoutX="56.0" layoutY="594.0" mnemonicParsing="false" onAction="#switchToHome" text="Home" />
       <Button layoutX="54.0" layoutY="483.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="Calculate" onAction="#regresiLinearRun" />
       <Text layoutX="301.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input y(i)">
